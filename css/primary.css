@@ -1,4 +1,33 @@
 div.dataContainer {
   margin-left: 30px;
-  margin-right: 600px;
+  margin-right: 30px;
+  width: 100%;
+}
+
+div.leftAlignContainer {
+  text-align: left;
+  float: left;
+  width: 70%;
+}
+
+div.rightAlignContainer {
+  text-align: left;
+  float: left;
+  width: 30%;
+}
+div.leftAlignCodeContainer {
+  text-align: left;
+  float: left;
+  width: 50%;
+}
+
+div.rightAlignCodeContainer {
+  text-align: left;
+  float: left;
+  width: 50%;
+}
+
+
+div.clear {
+  clear: both;
 }

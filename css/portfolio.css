@@ -49,6 +49,12 @@ h1 {
 	color: #887c87;
 }
 
+.boxed {
+	padding: 10px;
+	border: 10px solid #292029;
+	display: inline-block;
+}
+
 #newtImage {
 	display: block;
 	margin-left: auto;
@@ -62,11 +68,19 @@ h1 {
 }
 
 div.outside {
+	text-align: left;
 	padding-left: 30px;
 	padding-right: 30px;
-	padding-top: 20px;
 	padding-bottom: 30px;
 }
+
+div.information {
+	position: relative;
+	text-align: center;
+	padding-left: 30px;
+	padding-right: 30px;
+}
+
 p.para {
 	white-space: pre;
 	float: left;

@@ -1,0 +1,176 @@
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="/css/portfolio.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" href="/css/bootstrap.css">
+  <link rel="stylesheet" href="/css/primary.css">
+  <link rel="stylesheet" href="/css/code.css">
+</head>
+
+<body>
+  <nav>
+    <div id="nav-placeholder">
+    </div>
+  </nav>
+  <h1>Weather API</h1>
+  <div class="leftAlignCodeContainer">
+    <div class="codeSnippet"><h2>HTML</h2>
+      &lth1&gtWeather API&lt/h1&gt
+      &ltdiv class="outside"&gt
+        &ltform id="weatherForm" onsubmit="return false"&gt
+          &ltb&gtEnter a city in the world (does not separate based on multiple cities with the same name... yet):&lt/b&gt&ltbr&gt
+          &ltinput type="text" name="theCity"&gt
+          &ltbr&gt
+          &ltbr&gt
+          &ltinput type="submit" value="submit" onclick="weatherSubmit()"&gt
+        &lt/form&gt
+      &lt/div&gt
+
+      &ltdiv class="information" id="weatherResults"&gt&lt/div&gt
+    </div>
+  </div>
+  <div class="rightAlignCodeContainer">
+    <div class="codeSnippet"><h2>JS</h2>
+      function weatherSubmit() {
+        var city = document.getElementById("weatherForm").theCity.value;
+        console.log(city);
+
+        getWeather(city);
+      }
+
+      function getWeather(city) {
+        var myURL = "http://api.openweathermap.org/data/2.5/weather?q=" + city + "&units=metric" + "&APPID=b29095ba1d3d0de51274438b9c3e5375";
+        console.log(myURL);
+        $.ajax({
+          url: myURL,
+          dataType: "json",
+          success: function(json) {
+            displayWeatherResults(json);
+            console.log(json);
+          },
+          error: function(json) {
+            failureMSG(json);
+            console.log(json);
+          }
+        });
+      }
+
+      function failureMSG(json) {
+        console.log(json.responseJSON);
+        displayWeatherResults(json.responseJSON);
+      }
+
+      function displayWeatherResults(json) {
+        if (json['cod'] === '404') {
+          var results = "&lth2&gtERROR: " + json['message'] + "&lt/h2&gt";
+        }
+        else {
+          var results = "";
+          results += '&lth2&gtWeather in ' + json.name + ", " + json.sys.country + "&lt/h2&gt";
+          for (var i = 0; i &lt json.weather.length; i++) {
+            results += '&ltimg src="http://openweathermap.org/img/w/' + json.weather[i].icon + '.png"/&gt';
+          }
+          results += '&lth2&gtCurrent: ' + json.main.temp + " &deg;C&lt/h2&gt";
+          results += '&ltb&gtHigh:    ' + json.main.temp_max + " &deg;C&lt/b&gt ||| ";
+          results += '&ltb&gtLow:     ' + json.main.temp_min + " &deg;C&lt/b&gt";
+          results += '&ltdiv&gt&ltb&gtWeather conditions:&lt/b&gt&lt/div&gt&ltdiv class="boxed"&gt';
+          for (var i = 0; i &lt json.weather.length; i++) {
+            results += json.weather[i].description
+            if (i !== json.weather.length - 1)
+              results += ", ";
+          }
+          results += "&lt/div&gt"
+          results += '&ltdiv&gtWind is currently blowing at ' + json.wind['deg'] + "&deg;&lt/div&gt";
+          results += '&ltdiv&gtWind is currently blowing at ' + json.wind['speed'] + ' m/s&lt/div&gt';
+          results += '&ltdiv&gt&lt/div&gt'
+          results += '&ltdiv&gtHumidity is at ' + json.main.humidity + '%&lt/div&gt';
+          results += '&ltdiv&gt&lt/div&gt'
+          results += '&ltdiv&gtPressure is at ' + json.main.pressure + " hPa&lt/div&gt";
+        }
+        $("#weatherResults").html(results);
+      }
+
+
+    </div>
+  </div>
+
+  <div class="clear"></div>
+
+  <h1>Stack Overflow API</h1>
+  <div class="leftAlignCodeContainer">
+    <div class="codeSnippet"><h2>HTML</h2>
+      &lth1&gtOverflow API&lt/h1&gt
+      &ltdiv class="outside"&gt
+        &ltform id="overflowForm" onsubmit="return false"&gt
+          &ltb&gtEnter a Stack Overflow query:&lt/b&gt&ltbr&gt
+          &ltinput type="text" name="request"&gt
+          &ltbr&gt
+          &ltbr&gt
+          &ltinput type="submit" value="submit" onclick="overflowSubmit()"&gt
+        &lt/form&gt
+      &lt/div&gt
+      &ltdiv class="information"&gt
+        &ltdiv class="outside" id="overflowResults"&gt&lt/div&gt
+      &lt/div&gt
+
+    </div>
+  </div>
+  <div class="rightAlignCodeContainer">
+    <div class="codeSnippet"><h2>JS</h2>
+      function overflowSubmit() {
+        var request = document.getElementById('overflowForm').request.value;
+        console.log(request);
+        getOverflow(request);
+      }
+
+      function getOverflow(request) {
+        var myURL = "https://api.stackexchange.com/2.2/search?order=desc&sort=activity&site=stackoverflow&intitle=" + request;
+        console.log(myURL);
+        $.ajax({
+          url: myURL,
+          dataType: "json",
+          success: function(json) {
+            displayOverflowResults(json);
+            console.log(json);
+          }
+        });
+      }
+
+      function displayOverflowResults(json) {
+        var results = "";
+        results += "&lth2&ltStack overflow questions:&lt/h2&lt";
+        for (var i = 0;i &lt json.items.length;i++) {
+          results += '&ltdiv&gt&lta href="' + json.items[i].link + '"&gt' + json.items[i].title + '&gt/a&lt/div&gt';
+        }
+
+        $("#overflowResults").html(results);
+      }
+    </div>
+  </div>
+  <div class="clear"></div>
+
+
+
+
+
+  <footer>
+    <div id="footer-placeholder">
+
+    </div>
+
+    <script>
+      $(function() {
+        $("#nav-placeholder").load("/utils/navbar.html");
+        $("#footer-placeholder").load("/utils/footer.html");
+      });
+    </script>
+  </footer>
+
+
+</body>
+
+</html>

@@ -1,44 +1,64 @@
+<!DOCTYPE html>
 <html>
 
 <head>
   <meta charset="utf-8">
+  <link rel="stylesheet" href="/css/portfolio.css">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <script src="/js/bootstrap.js"></script>
-  <link rel="stylesheet" href="/css/bootstrap.css">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script src="/js/weather_api.js"></script>
+  <link rel="stylesheet" href="/css/bootstrap.css">
+  <link rel="stylesheet" href="/css/primary.css">
 </head>
 
 <body>
+
   <nav>
     <div id="nav-placeholder">
-
-    </div>
-
-    <script>
-      $(function() {
-        $("#nav-placeholder").load("/utils/navbar.html");
-      });
-    </script>
   </nav>
-  <p>TBI</p>
+
+  <div>This is an example of a bunch of API's. Check out the code <a href="/pages/code/weatherapi.html">here!</a></div>
 
 
+  <h1>Weather API</h1>
+  <div class="outside">
+    <form id="weatherForm" onsubmit="return false">
+      <b>Enter a city in the world (does not separate based on multiple cities with the same name... yet):</b><br>
+      <input type="text" name="theCity">
+      <br>
+      <br>
+      <input type="submit" value="submit" onclick="weatherSubmit()">
+    </form>
+  </div>
 
-  <footer>
-    <div id="footer-placeholder">
+  <div class="information" id="weatherResults"></div>
+  <h1>Overflow API</h1>
+  <div class="outside">
+    <form id="overflowForm" onsubmit="return false">
+      <b>Enter a Stack Overflow query:</b><br>
+      <input type="text" name="request">
+      <br>
+      <br>
+      <input type="submit" value="submit" onclick="overflowSubmit()">
+    </form>
+  </div>
+  <div class="information">
+    <div class="outside" id="overflowResults"></div>
+  </div>
+  <div id="footer-placeholder">
 
-    </div>
-
-    <script>
-      $(function() {
-        $("#footer-placeholder").load("/utils/footer.html");
-      });
-    </script>
-  </footer>
+  <div id="footer-placeholder">
 
 
 </body>
+<script>
+  $(function() {
+    $("#footer-placeholder").load("/utils/footer.html");
+  });
+  $(function() {
+    $("#nav-placeholder").load("/utils/navbar.html");
+  });
+</script>
 
 </html>

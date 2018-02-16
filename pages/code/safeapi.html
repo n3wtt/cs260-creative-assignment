@@ -1,0 +1,167 @@
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="/css/portfolio.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" href="/css/bootstrap.css">
+  <link rel="stylesheet" href="/css/primary.css">
+  <link rel="stylesheet" href="/css/code.css">
+</head>
+
+<body>
+  <nav>
+    <div id="nav-placeholder">
+    </div>
+  </nav>
+  <h1>Website Credibility API</h1>
+  <div class="leftAlignCodeContainer">
+    <div class="codeSnippet"><h2>HTML</h2>
+      &lt!DOCTYPE html&gt
+      &lthtml&gt
+
+      &lthead&gt
+        &ltmeta charset="utf-8"&gt
+        &ltlink rel="stylesheet" href="/css/portfolio.css"&gt
+        &ltmeta name="viewport" content="width=device-width, initial-scale=1"&gt
+        &ltscript src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"&gt&lt/script&gt
+        &ltscript src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"&gt&lt/script&gt
+        &ltscript src="/js/safebrowse_api.js"&gt&lt/script&gt
+        &ltlink rel="stylesheet" href="/css/bootstrap.css"&gt
+        &ltlink rel="stylesheet" href="/css/primary.css"&gt
+      &lt/head&gt
+
+      &ltbody&gt
+
+        &ltnav&gt
+          &ltdiv id="nav-placeholder"&gt
+        &lt/nav&gt
+
+        &ltdiv&gtThis is an cool API that tests the "security" of a website. Check out the code &lta href="/pages/code/safeapi.html"&gthere!&lt/a&gt&lt/div&gt
+
+
+        &lth1&gtSafe URL API&lt/h1&gt
+        &ltdiv class="outside"&gt
+          &ltform id="safeForm" onsubmit="return false"&gt
+            &ltb&gtEnter websites you'd like to test (separate multiple entires with a backslach(\)):&lt/b&gt&ltbr&gt
+            &ltinput type="text" name="theURL"&gt
+            &ltbr&gt
+            &ltbr&gt
+            &ltinput type="submit" value="submit" onclick="safeWebsiteSubmit()"&gt
+          &lt/form&gt
+        &lt/div&gt
+
+        &ltdiv class="information" id="safeResults"&gt&lt/div&gt
+
+
+
+        &ltdiv id="footer-placeholder"&gt
+
+
+      &lt/body&gt
+      &ltscript&gt
+        $(function() {
+          $("#footer-placeholder").load("/utils/footer.html");
+        });
+        $(function() {
+          $("#nav-placeholder").load("/utils/navbar.html");
+        });
+      &lt/script&gt
+
+      &lt/html&gt
+    </div>
+  </div>
+  <div class="rightAlignCodeContainer">
+    <div class="codeSnippet"><h2>JS</h2>
+      function safeWebsiteSubmit() {
+        var theURL = document.getElementById("safeForm").theURL.value;
+
+        getInfo(theURL);
+      }
+
+
+
+
+
+      function getInfo(testURL) {
+        myAPIKey = "45be88ae6f296f56abeda4fd5b9027700a851ef4";
+        myURL = "http://api.mywot.com/0.4/public_link_json?hosts=" + testURL + "/&key=" + myAPIKey;
+        $.ajax({
+          url: myURL,
+          dataType: "json",
+          success: function(json) {
+            displaySafeResults(json, testURL);
+          },
+          error: function(json, testURL) {
+            failureMSG(json);
+          }
+        });
+      }
+
+      function failureMSG(json) {
+        displaySafeResults(json.responseJSON);
+      }
+
+      function displaySafeResults(json, testURL) {
+        if (json['cod'] === '404') {
+          var results = "&lth2&gtERROR: " + json['message'] + "&lt/h2&gt";
+        }
+        else {
+          var results = '&lth2 style="test-align: left;"&gtTest results:&lt/h2&gt';
+          for (var k in json) {
+            results += '&ltdiv style="text-align:left;"&gt';
+            results += "&lth3&gtURL: " + json[k].target + ":&lt/h3&gt";
+            results += '&ltdiv class="dataContainer"&gt'
+            var totalCount = 0;
+            var totalLike = 0;
+            for (var j in json[k]) {
+              if (j === 'target') {
+                continue;
+              }
+              if (j === 'categories') {
+                continue;
+              }
+              if (j === 'blacklists') {
+                continue;
+              }
+              totalCount++;
+              totalLike += parseInt(json[k][j])
+            }
+            var avgLike = totalLike/totalCount;
+            results += 'Site\'s Credibleness: ' + avgLike + '%';
+            results += "&lt/div&gt";
+          }
+
+        }
+
+
+        $("#safeResults").html(results);
+
+      }
+    </div>
+  </div>
+  <div class="clear"></div>
+
+
+
+
+
+  <footer>
+    <div id="footer-placeholder">
+
+    </div>
+
+    <script>
+      $(function() {
+        $("#nav-placeholder").load("/utils/navbar.html");
+        $("#footer-placeholder").load("/utils/footer.html");
+      });
+    </script>
+  </footer>
+
+
+</body>
+
+</html>
